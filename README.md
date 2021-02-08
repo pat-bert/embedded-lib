@@ -13,4 +13,4 @@ Collection of my own libraries for interfacing with MCU-peripherals or ICs
 * No callback for parallel operation via GPIO supplied yet
 * 4-bit and 8-bit mode (latter is in testing phase)
 * Busy Flag checking and correct start-up delays
-* TODO: Custom Character RAM write/read
+* Custom Character RAM write
