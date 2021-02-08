@@ -117,6 +117,18 @@ static uint8_t lcd_read(const lcd_config_s *config, interface_s *interface, uint
     return read_value;
 }
 
+/* Misc. functions */
+
+void lcd_clear(const lcd_config_s *config, interface_s *interface){
+    lcd_write(config, interface, LCD_CLEAR_DISPLAY, 0);
+    wait_busy(config, interface);
+}
+
+void lcd_home(const lcd_config_s *config, interface_s *interface){
+    lcd_write(config, interface, LCD_RETURN_HOME, 0);
+    wait_busy(config, interface);
+}
+
 void wait_busy(const lcd_config_s *config, interface_s *interface){
     lcd_status_s status;  
     do{
@@ -396,6 +408,7 @@ void lcd_printf(const lcd_config_s *config, interface_s *interface, char *s){
         }
         
         // Print next character at current cursor position
+        // Cursor is automatically incremented
         lcd_putc(config, interface, *c);
     }
 }
@@ -419,3 +432,35 @@ lcd_status_s lcd_get_status(const lcd_config_s *config, interface_s *interface){
     return status;    
 }
 
+// Special characters
+void lcd_create_custom(const lcd_config_s *config, interface_s *interface, uint8_t addr, uint8_t *character){
+    int max_row;
+       
+    // Get number of rows to write to CGRAM
+    switch (config->font){
+        case LCD_FONT_5x10:
+            // Only four characters possible
+            if (addr >= 0x04)
+                return;
+            addr <<= 4;
+            max_row = 10;
+            break;
+        case LCD_FONT_5x8:
+            // Intentional fall-through
+        default:
+            // Only eight characters possible
+            if (addr >= 0x08)
+                return;
+            addr <<= 3;
+            max_row = 8;
+    }
+    
+    // Set initial CGRAM address
+    lcd_write(config, interface, LCD_SET_CGRAM_ADDR | addr, 0);
+    
+    // Write data to CGRAM address
+    // CGRAM address is incremented automatically
+    for (int row=0; row < max_row; row++, character++){
+        lcd_write(config, interface, *character, 1);
+    }
+}
