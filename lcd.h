@@ -122,6 +122,8 @@ void lcd_init(lcd_config_s *config, interface_s * interface);
 /* High level functions for user */
 
 void wait_busy(const lcd_config_s *config, interface_s *interface);
+void lcd_clear(const lcd_config_s *config, interface_s *interface);
+void lcd_home(const lcd_config_s *config, interface_s *interface);
 
 // Power
 void lcd_power_on(interface_s *interface);
@@ -132,6 +134,8 @@ void lcd_display_on(lcd_config_s *config, interface_s *interface);
 void lcd_display_off(lcd_config_s *config, interface_s *interface);
 void lcd_blink_on(lcd_config_s *config, interface_s *interface);
 void lcd_blink_off(lcd_config_s *config, interface_s *interface);
+
+/* DDRAM Addresses are moved when whole display is moved */
 void lcd_mv_right(const lcd_config_s *config, interface_s *interface);
 void lcd_mv_left(const lcd_config_s *config, interface_s *interface);
 
@@ -151,6 +155,8 @@ char lcd_getc(const lcd_config_s *config, interface_s *interface);
 
 // LCD status
 lcd_status_s lcd_get_status(const lcd_config_s *config, interface_s *interface);
+
+void lcd_create_custom(const lcd_config_s *config, interface_s *interface, uint8_t addr, uint8_t *character);
 
 #ifdef	__cplusplus
 }
