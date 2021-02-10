@@ -368,8 +368,24 @@ lcd_pos_s lcd_get_cursor(const lcd_config_s *config, interface_s *interface){
             curr_pos.col = lcd_status.address - curr_pos.row * LCD_LINE1_ADDR;
             break;
         case 3:
-            break;
+            // Intentional fall-through
         case 4:
+            if (config->rows > 3 && lcd_status.address >= LCD_LINE3_ADDR){
+                curr_pos.row = 3;
+                curr_pos.col = lcd_status.address - LCD_LINE3_ADDR;
+            }
+            else if (lcd_status.address >= LCD_LINE2_ADDR){
+                curr_pos.row = 2;
+                curr_pos.col = lcd_status.address - LCD_LINE2_ADDR;
+            }
+            else if (lcd_status.address >= LCD_LINE1_ADDR){
+                curr_pos.row = 1;
+                curr_pos.col = lcd_status.address - LCD_LINE1_ADDR;
+            }
+            else{
+                curr_pos.row = 0;
+                curr_pos.col = lcd_status.address;
+            }
             break;
         case 1:
             // Intentional fall-through
