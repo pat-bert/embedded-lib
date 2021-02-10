@@ -69,7 +69,7 @@ extern "C" {
 #define LCD_5F8                 0x00        // Flag to set 5x8 dots character font
 #define LCD_5F10                0x04        // Flag to set 5x10 character font
     
-#define MAX_ROWS_SUPPORTED  2
+#define MAX_ROWS_SUPPORTED      4
     
 // Enumerator for 4-bit or 8-bit data bus
 typedef enum {LCD_BUS_WIDTH_8, LCD_BUS_WIDTH_4} lcd_bit_e;
